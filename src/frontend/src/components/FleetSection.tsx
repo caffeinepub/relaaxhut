@@ -20,7 +20,9 @@ const fleet = [
     sleeps: 4,
     coOwners: 6,
     investment: "₹5 Lakh",
-    pricePerNight: "₹8,500",
+    pricePerNight: "₹8,400",
+    originalPrice: "₹12,000",
+    discountPercent: 30,
     status: "Available",
     amenities: ["bed", "kitchen", "gps"] as const,
     rentalAvailable: true,
@@ -36,24 +38,28 @@ const fleet = [
     coOwners: "10–11",
     investment: "₹5 Lakh",
     pricePerNight: "TBA",
+    originalPrice: null,
+    discountPercent: null,
     status: "Coming Soon",
     amenities: ["bed", "kitchen", "wifi"] as const,
     rentalAvailable: false,
     coOwnAvailable: true,
   },
   {
-    id: 3,
-    name: "Himalayan Cruiser",
+    id: 4,
+    name: "Isuzu D-Max Camper",
     type: "Premium Campervan",
     image: "/assets/uploads/e4bf78b0-4c8e-4fb0-bbc1-4b19fdca7e89-1.jpeg",
-    location: "Delhi",
+    location: "Delhi (Coming Soon)",
     sleeps: 4,
     coOwners: 6,
     investment: "₹5 Lakh",
-    pricePerNight: "₹9,500",
-    status: "Available",
+    pricePerNight: "TBA",
+    originalPrice: null,
+    discountPercent: null,
+    status: "Coming Soon",
     amenities: ["bed", "kitchen", "gps"] as const,
-    rentalAvailable: true,
+    rentalAvailable: false,
     coOwnAvailable: true,
   },
 ];
@@ -101,6 +107,11 @@ function FleetCard({ van, index }: { van: (typeof fleet)[0]; index: number }) {
         >
           {van.status}
         </Badge>
+        {van.discountPercent && (
+          <Badge className="absolute top-3 left-3 text-xs font-semibold bg-red-500 text-white">
+            {van.discountPercent}% OFF
+          </Badge>
+        )}
         <div className="absolute bottom-3 left-3 flex items-center gap-1 text-white text-xs">
           <MapPin className="w-3 h-3" />
           {van.location}
@@ -131,12 +142,26 @@ function FleetCard({ van, index }: { van: (typeof fleet)[0]; index: number }) {
         <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
           <div>
             <div className="text-xs text-muted-foreground">Rental from</div>
-            <div className="font-bold text-forest text-lg">
-              {van.pricePerNight}
-              <span className="text-xs font-normal text-muted-foreground">
-                /night
-              </span>
-            </div>
+            {van.originalPrice ? (
+              <div className="flex items-baseline gap-2">
+                <div className="font-bold text-forest text-lg">
+                  {van.pricePerNight}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    /night
+                  </span>
+                </div>
+                <div className="text-sm text-muted-foreground line-through">
+                  {van.originalPrice}
+                </div>
+              </div>
+            ) : (
+              <div className="font-bold text-forest text-lg">
+                {van.pricePerNight}
+                <span className="text-xs font-normal text-muted-foreground">
+                  {van.pricePerNight !== "TBA" ? "/night" : ""}
+                </span>
+              </div>
+            )}
           </div>
           <div>
             <div className="text-xs text-muted-foreground">Co-ownership</div>

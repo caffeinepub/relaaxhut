@@ -90,8 +90,8 @@ export default function Footer() {
               Contact
             </h4>
             <ul className="space-y-2 text-sm text-white/60 mb-5">
-              <li>📞 +91 98765 43210</li>
-              <li>✉️ hello@relaaxhut.com</li>
+              <li>📞 +91 91760 15517</li>
+              <li>✉️ relaaxhut@gmail.com</li>
               <li>📍 Delhi & Bangalore, India</li>
             </ul>
             <div className="flex items-center gap-3">
