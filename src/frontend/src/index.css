@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* Deep forest green: #24473B ~ oklch(0.34 0.07 162) */
+    --forest: 0.34 0.07 162;
+    /* Cream/sand: #F3E9D3 ~ oklch(0.92 0.04 86) */
+    --cream: 0.92 0.04 86;
+    /* Terracotta: #B8623B ~ oklch(0.57 0.12 42) */
+    --terra: 0.57 0.12 42;
+    /* Charcoal: #1E1E1E */
+    --charcoal: 0.18 0 0;
+
+    --background: var(--cream);
+    --foreground: var(--charcoal);
+    --card: 1 0 0;
+    --card-foreground: var(--charcoal);
+    --popover: 1 0 0;
+    --popover-foreground: var(--charcoal);
+    --primary: var(--forest);
+    --primary-foreground: 1 0 0;
+    --secondary: 0.97 0.02 86;
+    --secondary-foreground: var(--charcoal);
+    --muted: 0.94 0.02 86;
+    --muted-foreground: 0.45 0.02 86;
+    --accent: var(--terra);
+    --accent-foreground: 1 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.85 0.03 86;
+    --input: 0.88 0.03 86;
+    --ring: var(--forest);
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+    --sidebar: var(--forest);
+    --sidebar-foreground: 1 0 0;
+    --sidebar-primary: var(--terra);
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.28 0.06 162;
+    --sidebar-accent-foreground: 1 0 0;
+    --sidebar-border: 0.28 0.05 162;
+    --sidebar-ring: var(--terra);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
