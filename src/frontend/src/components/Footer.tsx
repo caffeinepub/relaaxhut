@@ -96,21 +96,39 @@ export default function Footer() {
             </ul>
             <div className="flex items-center gap-3">
               {[
-                { Icon: SiInstagram, label: "Instagram" },
-                { Icon: SiFacebook, label: "Facebook" },
-                { Icon: SiYoutube, label: "YouTube" },
-                { Icon: SiLinkedin, label: "LinkedIn" },
-              ].map(({ Icon, label }) => (
-                <button
-                  key={label}
-                  type="button"
-                  aria-label={label}
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-terra flex items-center justify-center transition-colors"
-                  data-ocid={`footer.${label.toLowerCase()}.link`}
-                >
-                  <Icon className="w-4 h-4" />
-                </button>
-              ))}
+                {
+                  Icon: SiInstagram,
+                  label: "Instagram",
+                  href: "https://www.instagram.com/?hl=en",
+                },
+                { Icon: SiFacebook, label: "Facebook", href: "" },
+                { Icon: SiYoutube, label: "YouTube", href: "" },
+                { Icon: SiLinkedin, label: "LinkedIn", href: "" },
+              ].map(({ Icon, label, href }) =>
+                href ? (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-terra flex items-center justify-center transition-colors"
+                    data-ocid={`footer.${label.toLowerCase()}.link`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    key={label}
+                    type="button"
+                    aria-label={label}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-terra flex items-center justify-center transition-colors"
+                    data-ocid={`footer.${label.toLowerCase()}.link`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </button>
+                ),
+              )}
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ const fleet = [
     id: 1,
     name: "Tata Yodha",
     type: "Small Campervan",
-    image: "/assets/uploads/d946796b-2245-4cf0-a315-8de785647c44-3.jpeg",
+    image: "/assets/uploads/8744559d-6462-460e-96fe-391cc5effaa7-1.jpeg",
     location: "Delhi · Bangalore",
     sleeps: 4,
     coOwners: 6,

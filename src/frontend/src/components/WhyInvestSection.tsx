@@ -48,7 +48,7 @@ const faqs = [
   {
     id: "payment",
     q: "What are the payment terms?",
-    a: "The total investment is ₹5 Lakhs. Booking/EOI Stage: 10% (₹50,000). Construction Phase: The remaining 90% is paid via account transfer over the next 4 months as the build progresses. We maintain 100% transparency with all-white documented transactions (no cash).",
+    a: "The total investment is ₹5 Lakhs. Booking/EOI Stage: 1% (₹5,000). Construction Phase: The remaining 99% is paid via account transfer over the next 4 months as the build progresses. We maintain 100% transparency with all-white documented transactions (no cash).",
   },
   {
     id: "earning",

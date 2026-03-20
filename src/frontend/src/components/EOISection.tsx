@@ -54,15 +54,15 @@ export default function EOISection() {
             </h2>
             <p className="text-white/70 text-lg mb-8 leading-relaxed">
               Become a co-owner of a RelaaxHut campervan. Secure your spot with
-              just <span className="text-terra font-bold">₹50,000</span> EOI.
+              just <span className="text-terra font-bold">₹5,000</span> EOI.
             </p>
 
             <div className="space-y-4">
               {[
                 {
                   label: "Initial EOI",
-                  value: "₹50,000",
-                  note: "10% of total investment",
+                  value: "₹5,000",
+                  note: "1% of total investment",
                 },
                 {
                   label: "Total Investment",
@@ -119,7 +119,7 @@ export default function EOISection() {
                   <div className="mt-4 p-4 bg-cream rounded-xl">
                     <IndianRupee className="w-6 h-6 text-terra mx-auto mb-1" />
                     <p className="text-sm text-forest font-semibold">
-                      Secure your spot with ₹50,000 EOI
+                      Secure your spot with ₹5,000 EOI
                     </p>
                   </div>
                   <Button
@@ -208,8 +208,8 @@ export default function EOISection() {
                             <SelectItem value="tempo-traveller">
                               Tempo Traveller XL
                             </SelectItem>
-                            <SelectItem value="himalayan-cruiser">
-                              Himalayan Cruiser
+                            <SelectItem value="isuzu-dmax">
+                              Isuzu D-Max Camper
                             </SelectItem>
                             <SelectItem value="open">Open to Any</SelectItem>
                           </SelectContent>

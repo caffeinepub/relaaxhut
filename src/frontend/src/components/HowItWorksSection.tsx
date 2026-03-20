@@ -5,14 +5,14 @@ const steps = [
     number: "01",
     title: "Express Interest",
     description:
-      "Pay ₹50,000 EOI (10% of total investment) to reserve your co-ownership slot. All transactions are fully documented.",
-    detail: "₹50K EOI",
+      "Pay ₹5,000 EOI (1% of total investment) to reserve your co-ownership slot. All transactions are fully documented.",
+    detail: "₹5K EOI",
   },
   {
     number: "02",
     title: "Watch the Build",
     description:
-      "Over the next 4 months, pay the remaining ₹4.5L via bank transfer as construction progresses. We maintain 100% transparency.",
+      "Over the next 4 months, pay the remaining ₹4.95L via bank transfer as construction progresses. We maintain 100% transparency.",
     detail: "4 Months Build",
   },
   {
