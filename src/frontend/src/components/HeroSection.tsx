@@ -58,7 +58,7 @@ export default function HeroSection() {
                 className="border-white/70 text-white hover:bg-white/10 text-base px-8 py-6 rounded-md font-semibold backdrop-blur-sm bg-white/10"
                 data-ocid="hero.learn_invest.button"
               >
-                Learn to Invest
+                Own your Campervan
               </Button>
             </div>
           </motion.div>

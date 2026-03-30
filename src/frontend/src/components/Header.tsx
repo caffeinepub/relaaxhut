@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Menu, Truck, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -49,9 +49,11 @@ export default function Header({
             className="flex items-center gap-2 group"
             data-ocid="header.link"
           >
-            <div className="w-8 h-8 rounded-md bg-forest flex items-center justify-center">
-              <Truck className="w-4 h-4 text-white" />
-            </div>
+            <img
+              src="/assets/uploads/8744559d-6462-460e-96fe-391cc5effaa7-2-5.jpeg"
+              alt="RelaaxHut Logo"
+              className="w-10 h-10 object-contain"
+            />
             <span className="font-display font-800 text-xl text-forest tracking-tight">
               RelaaxHut
             </span>
