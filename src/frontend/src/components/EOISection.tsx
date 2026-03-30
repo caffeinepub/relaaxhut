@@ -9,10 +9,37 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle2, IndianRupee } from "lucide-react";
+import { Car, CheckCircle2, IndianRupee, MapPin, Users } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+function SlotIndicator({
+  filled,
+  total,
+}: {
+  filled: number;
+  total: number;
+}) {
+  const slots = Array.from({ length: total }, (_, i) => ({
+    id: `slot-${total}-${i + 1}`,
+    isFilled: i < filled,
+  }));
+  return (
+    <div className="flex items-center gap-1.5">
+      {slots.map((slot) => (
+        <div
+          key={slot.id}
+          className={`w-4 h-4 rounded-full border-2 ${
+            slot.isFilled
+              ? "bg-terra border-terra"
+              : "bg-transparent border-white/40"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function EOISection() {
   const [form, setForm] = useState({
@@ -35,6 +62,11 @@ export default function EOISection() {
     toast.success("EOI submitted! We'll contact you within 24 hours.");
   };
 
+  const citySlots = [
+    { city: "Delhi (NCR)", filled: 1, total: 6 },
+    { city: "Bangalore", filled: 1, total: 6 },
+  ];
+
   return (
     <section id="invest" className="py-20 bg-forest">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,10 +84,69 @@ export default function EOISection() {
             <h2 className="font-display text-4xl lg:text-5xl font-bold text-white mt-2 mb-4">
               Ready to Invest?
             </h2>
-            <p className="text-white/70 text-lg mb-8 leading-relaxed">
+            <p className="text-white/70 text-lg mb-6 leading-relaxed">
               Become a co-owner of a RelaaxHut campervan. Secure your spot with
               just <span className="text-terra font-bold">₹5,000</span> EOI.
             </p>
+
+            {/* Current Opportunity — Tata Yodha Caravan */}
+            <div className="bg-white/10 border border-white/20 rounded-xl px-5 py-4 mb-6">
+              <span className="text-terra text-xs font-bold tracking-widest uppercase">
+                Current Opportunity
+              </span>
+              <div className="mt-2 mb-4">
+                <h3 className="text-white font-bold text-xl leading-tight">
+                  Tata Yodha Caravan
+                </h3>
+                <p className="text-white/50 text-xs mt-0.5">
+                  Open for co-ownership in both cities
+                </p>
+              </div>
+
+              {/* Vehicle badge */}
+              <div className="flex flex-wrap gap-3 mb-4">
+                <div className="flex items-center gap-1.5 bg-white/10 rounded-lg px-3 py-1.5">
+                  <Car className="w-3.5 h-3.5 text-terra" />
+                  <span className="text-white text-xs font-medium">
+                    Yodha-based Campervan
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/10 rounded-lg px-3 py-1.5">
+                  <Users className="w-3.5 h-3.5 text-terra" />
+                  <span className="text-white text-xs font-medium">
+                    6 co-owners per unit
+                  </span>
+                </div>
+              </div>
+
+              {/* Per-city slot availability */}
+              <div className="space-y-3">
+                {citySlots.map((slot) => (
+                  <div
+                    key={slot.city}
+                    className="bg-white/10 rounded-lg px-4 py-3"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-terra" />
+                        <span className="text-white text-sm font-semibold">
+                          {slot.city}
+                        </span>
+                      </div>
+                      <span className="text-amber-400 text-xs font-bold">
+                        {slot.total - slot.filled} spots left
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <SlotIndicator filled={slot.filled} total={slot.total} />
+                      <span className="text-white/50 text-xs">
+                        {slot.filled} of {slot.total} filled
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="space-y-4">
               {[
