@@ -49,6 +49,23 @@ const availableVehicles: Van[] = [
     rentalAvailable: true,
     coOwnAvailable: false,
   },
+  {
+    id: 7,
+    name: "RelaaxHut BH Caravan",
+    type: "Luxury Caravan",
+    image: "/assets/uploads/8744559d-6462-460e-96fe-391cc5effaa7-1.jpeg",
+    location: "Delhi NCR",
+    sleeps: 4,
+    coOwners: 0,
+    investment: null,
+    pricePerNight: "₹9,000",
+    originalPrice: null,
+    discountPercent: null,
+    status: "Available",
+    amenities: ["bed", "kitchen", "gps"],
+    rentalAvailable: true,
+    coOwnAvailable: false,
+  },
 ];
 
 const underDevelopmentVehicles: Van[] = [

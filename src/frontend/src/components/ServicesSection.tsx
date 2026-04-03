@@ -22,7 +22,6 @@ import {
   Calendar,
   Car,
   CheckCircle2,
-  Info,
   Mail,
   MapPin,
   Phone,
@@ -40,6 +39,35 @@ type NightEntry = {
   rate: number;
   isWeekend: boolean;
 };
+
+// Module-level per-city booking map so it persists across re-renders/resets for the lifetime of the SPA session
+const bookedRangesByCity: Record<
+  string,
+  Array<{ pickupDate: string; dropoffDate: string }>
+> = {
+  delhi: [],
+  bangalore: [],
+};
+
+function datesOverlap(
+  aStart: string,
+  aEnd: string,
+  bStart: string,
+  bEnd: string,
+): boolean {
+  return aStart < bEnd && aEnd > bStart;
+}
+
+function isDateRangeAvailable(
+  city: string,
+  pickupDate: string,
+  dropoffDate: string,
+): boolean {
+  const ranges = bookedRangesByCity[city] ?? [];
+  return !ranges.some((r) =>
+    datesOverlap(r.pickupDate, r.dropoffDate, pickupDate, dropoffDate),
+  );
+}
 
 function RentalCard() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
@@ -62,7 +90,7 @@ function RentalCard() {
 
   const locationLabel =
     location === "delhi"
-      ? "Delhi"
+      ? "Delhi NCR"
       : location === "bangalore"
         ? "Bangalore"
         : "";
@@ -106,6 +134,12 @@ function RentalCard() {
       toast.error("Return date must be after pickup date");
       return;
     }
+    if (!isDateRangeAvailable(location, pickupDate, dropoffDate)) {
+      toast.error(
+        "These dates are already booked. Please choose different dates.",
+      );
+      return;
+    }
     setStep(2);
   };
 
@@ -129,6 +163,10 @@ function RentalCard() {
   };
 
   const handleSendEmail = () => {
+    // Record this booking into the correct city bucket to prevent double-booking
+    if (!bookedRangesByCity[location]) bookedRangesByCity[location] = [];
+    bookedRangesByCity[location].push({ pickupDate, dropoffDate });
+
     let breakdownText = "";
     if (weekdayNights.length > 0) {
       breakdownText += `${weekdayNights.length} weeknight(s) x Rs.9,000 = Rs.${(weekdayNights.length * 9000).toLocaleString("en-IN")}`;
@@ -148,7 +186,7 @@ function RentalCard() {
     );
 
     const body = encodeURIComponent(
-      `CAMPERVAN BOOKING REQUEST\n=========================\n\nVehicle: RelaaxHut BH Caravan (Bangalore)\n\nBOOKING DETAILS\n---------------\nPickup Location: ${pickupLocation}\nDrop Location: ${dropLocation}\nPickup Date: ${pickupDate}\nReturn Date: ${dropoffDate}\nTotal Nights: ${nights.length}\n\nCOST BREAKDOWN\n--------------\n${breakdownText}\nBase Total: Rs.${baseTotal.toLocaleString("en-IN")}\nDriver: ${driverLine}\nGRAND TOTAL: Rs.${grandTotal.toLocaleString("en-IN")}\n\nCUSTOMER DETAILS\n----------------\nName: ${name}\nMobile: ${phone}\nEmail: ${email}\nDriving Licence: ${hasDL ? "Confirmed" : "Not confirmed"}\n`,
+      `CAMPERVAN BOOKING REQUEST\n=========================\n\nVehicle: RelaaxHut BH Caravan (${locationLabel})\n\nBOOKING DETAILS\n---------------\nPickup Location: ${pickupLocation}\nDrop Location: ${dropLocation}\nPickup Date: ${pickupDate}\nReturn Date: ${dropoffDate}\nTotal Nights: ${nights.length}\n\nCOST BREAKDOWN\n--------------\n${breakdownText}\nBase Total: Rs.${baseTotal.toLocaleString("en-IN")}\nDriver: ${driverLine}\nGRAND TOTAL: Rs.${grandTotal.toLocaleString("en-IN")}\n\nCUSTOMER DETAILS\n----------------\nName: ${name}\nMobile: ${phone}\nEmail: ${email}\nDriving Licence: ${hasDL ? "Confirmed" : "Not confirmed"}\n`,
     );
 
     window.open(
@@ -174,19 +212,19 @@ function RentalCard() {
   const RecapBar = ({ showDriver = false }: { showDriver?: boolean }) => (
     <div className="bg-white/10 rounded-lg px-4 py-3 text-white/80 text-xs flex flex-wrap items-center gap-2 mb-4">
       <span className="font-semibold text-white">{locationLabel}</span>
-      <span className="opacity-50">·</span>
+      <span className="opacity-50">\u00b7</span>
       <span>
         {pickupDate} \u2192 {dropoffDate}
       </span>
-      <span className="opacity-50">·</span>
+      <span className="opacity-50">\u00b7</span>
       <span>
         {nights.length} night{nights.length !== 1 ? "s" : ""}
       </span>
-      <span className="opacity-50">·</span>
+      <span className="opacity-50">\u00b7</span>
       <span className="font-semibold text-terra">{fmt(baseTotal)}</span>
       {showDriver && (
         <>
-          <span className="opacity-50">·</span>
+          <span className="opacity-50">\u00b7</span>
           <span>
             {driverPref === "with" ? "With Driver" : "Without Driver"}
           </span>
@@ -231,6 +269,26 @@ function RentalCard() {
         <p className="text-white/70 text-sm mt-2">
           Book your adventure for a day, weekend, or longer.
         </p>
+      </div>
+
+      {/* Vehicle info banner */}
+      <div className="flex items-center gap-3 bg-white/10 rounded-xl p-3 mb-4">
+        <img
+          src="/assets/uploads/d946796b-2245-4cf0-a315-8de785647c44-1-2.jpeg"
+          alt="RelaaxHut BH Caravan"
+          className="w-16 h-12 object-cover rounded-lg flex-shrink-0"
+        />
+        <div>
+          <p className="text-white font-semibold text-sm">
+            RelaaxHut BH Caravan
+          </p>
+          <p className="text-white/60 text-xs">
+            Luxury Caravan{locationLabel && ` · ${locationLabel}`}
+          </p>
+          <span className="inline-block mt-1 text-[10px] font-semibold bg-green-500/20 text-green-300 px-2 py-0.5 rounded-full">
+            Available
+          </span>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -345,7 +403,7 @@ function RentalCard() {
               className="w-full bg-terra hover:bg-terra/90 text-white font-semibold py-5"
               data-ocid="rental.next.button"
             >
-              Check Availability \u2192
+              Check Availability
             </Button>
           </motion.form>
         )}
@@ -391,7 +449,7 @@ function RentalCard() {
                       Without Driver
                     </p>
                     <p className="text-white/60 text-xs mt-0.5">
-                      Self-drive — valid DL required
+                      Self-drive \u2014 valid DL required
                     </p>
                   </div>
                 </label>
@@ -414,7 +472,7 @@ function RentalCard() {
                       With Driver
                     </p>
                     <p className="text-white/60 text-xs mt-0.5">
-                      +\u20b91,500/night — we provide the driver
+                      +\u20b91,500/night \u2014 we provide the driver
                     </p>
                   </div>
                 </label>
@@ -430,7 +488,6 @@ function RentalCard() {
                 transition={{ duration: 0.25 }}
                 className="flex gap-3 bg-amber-500/15 border border-amber-400/30 rounded-xl p-3"
               >
-                <Info className="w-4 h-4 text-amber-300 flex-shrink-0 mt-0.5" />
                 <p className="text-amber-200 text-xs leading-relaxed">
                   <span className="font-semibold">Food Allowances:</span> Driver
                   food costs during the trip are the traveller&#39;s
@@ -475,7 +532,7 @@ function RentalCard() {
                 className="flex-1 bg-terra hover:bg-terra/90 text-white font-semibold"
                 data-ocid="rental.driver_next.button"
               >
-                Next \u2192
+                Continue
               </Button>
             </div>
           </motion.div>
@@ -591,7 +648,7 @@ function RentalCard() {
                 <p className="text-white/50 text-xs mt-0.5">
                   {driverPref === "without"
                     ? "Required for self-drive rentals"
-                    : "Optional — confirm if you hold a valid DL"}
+                    : "Optional \u2014 confirm if you hold a valid DL"}
                 </p>
               </div>
             </label>
@@ -610,7 +667,7 @@ function RentalCard() {
                 className="flex-1 bg-terra hover:bg-terra/90 text-white font-semibold"
                 data-ocid="rental.confirm.button"
               >
-                Confirm Booking \u2192
+                Confirm Booking
               </Button>
             </div>
           </motion.form>
@@ -652,7 +709,7 @@ function RentalCard() {
                   <p className="font-bold text-forest text-sm">
                     RelaaxHut BH Caravan
                   </p>
-                  <p className="text-gray-500 text-xs">Bangalore</p>
+                  <p className="text-gray-500 text-xs">{locationLabel}</p>
                 </div>
               </div>
 
